@@ -6,7 +6,7 @@ void main() {
 }
 
 class Brasileirao extends StatelessWidget{
-  const Brasileirao();
+  const Brasileirao({super.key});
 
   @override
   Widget build(BuildContext context) {

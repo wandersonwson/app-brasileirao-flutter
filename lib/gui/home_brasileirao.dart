@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import '../controladores/home_controller.dart';
+import 'package:brasileirao/modelos/time.dart';
+import 'package:brasileirao/gui/time_dados.dart';
 
-class HomeBrasileirao extends StatelessWidget{
-  var controller = HomeController();
+class HomeBrasileirao extends StatefulWidget{
+  const HomeBrasileirao({super.key});
+
+  @override
+  State<HomeBrasileirao> createState() => _HomeBrasileiraoState();
+}
+
+class _HomeBrasileiraoState extends State<HomeBrasileirao> {
+  var controller;
+
+  @override
+  void initState() {
+    controller = HomeController();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -10,12 +25,19 @@ class HomeBrasileirao extends StatelessWidget{
         title: Text('Brasileirão'),
       ),
       body: ListView.separated(
-          itemBuilder: (BuildContext contexto, int i) {
-            final tabela = controller.tabela;
+          itemBuilder: (BuildContext contexto, int time) {
+            final List<Time> tabela = controller.tabela;
             return ListTile(
-              leading: Image.network(tabela[i].brasao),
-              title: Text(tabela[i].nome),
-              trailing: Text(tabela[i].pontos.toString()),
+              leading: Image.network(tabela[time].brasao),
+              title: Text(tabela[time].nome),
+              trailing: Text(tabela[time].pontos.toString()),
+              onTap: () {
+                Navigator.push(contexto, MaterialPageRoute(
+                    builder: (_) => TimeDados(
+                      key: Key(tabela[time].nome),
+                      time: tabela[time],)
+                ));
+              },
             );
           },
           separatorBuilder: (x, y) => Divider(),
